@@ -18,13 +18,27 @@ def get_db():
         db.close()
 
 
-@app.post('/blog')
+# IMPORTANT notice schema is used for validation and models for actual creation of data
+@app.post('/blog', status_code=201)
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
     new_blog = models.Blog(title=request.title, body=request.body)
     db.add(new_blog)
     db.commit()
     db.refresh(new_blog)
     return new_blog
+
+
+@app.get('/blog')
+def all(db: Session = Depends(get_db)):
+    blogs = db.query(models.Blog).all()
+    return blogs
+
+
+@app.get('/blog/{id}')
+def show(id, db: Session = Depends(get_db)):
+    blog = db.query(models.Blog).filter(models.Blog.id == id).first()
+    return blog
+
 
 
 if __name__ == "__main__":
