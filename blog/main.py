@@ -68,7 +68,7 @@ def update(id, request: schemas.Blog, db: Session = Depends(get_db)):
 # users
 pwd_cxt = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
-@app.post('/user')
+@app.post('/user', response_model=schemas.ShowUser)
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     hashedPassword = pwd_cxt.hash(request.password)
     new_user = models.User(name=request.name, email=request.email, password=Hash.bcrypt(request.password))
@@ -77,6 +77,13 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
+
+@app.get('/user/{id}', response_model=schemas.ShowUser)
+def get_user(id: int, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == id).first()
+    if not user:
+        return HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with {id} was not found.")
+    return user
 
 
 if __name__ == "__main__":
