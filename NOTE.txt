@@ -1,0 +1,3 @@
+do not confuse schema with model
+
+if using the sqlalchemy orm (db.query...), you must enable orm_mode in schemas (set it true)

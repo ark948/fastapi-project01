@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, status, Response, HTTPException
 import schemas
 import models
+from typing import List
 from database import engine, SessionLocal
 from sqlalchemy.orm import Session
 
@@ -18,6 +19,12 @@ def get_db():
         db.close()
 
 
+@app.get('/blog', response_model=List[schemas.ShowBlog])
+def all(db: Session = Depends(get_db)):
+    blogs = db.query(models.Blog).all()
+    return blogs
+
+
 # IMPORTANT notice schema is used for validation and models for actual creation of data
 @app.post('/blog', status_code=status.HTTP_201_CREATED)
 def create(request: schemas.Blog, db: Session = Depends(get_db)):
@@ -28,13 +35,7 @@ def create(request: schemas.Blog, db: Session = Depends(get_db)):
     return new_blog
 
 
-@app.get('/blog')
-def all(db: Session = Depends(get_db)):
-    blogs = db.query(models.Blog).all()
-    return blogs
-
-
-@app.get('/blog/{id}', status_code=200)
+@app.get('/blog/{id}', status_code=200, response_model=schemas.ShowBlog)
 def show(id, response: Response, db: Session = Depends(get_db)):
     blog = db.query(models.Blog).filter(models.Blog.id == id).first()
     if not blog:
