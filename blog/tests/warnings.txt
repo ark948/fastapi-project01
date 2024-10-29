@@ -1,3 +1,5 @@
 declarative_base was moved to sqlalchemy.orm (database.py)
 
 class based Config is deprecated, use ConfigDict (schemas.py)
+
+orm_mode is renamed to form_attributes (schemas.py)

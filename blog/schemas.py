@@ -8,14 +8,14 @@ class BlogBase(BaseModel):
 
 
 class Blog(BlogBase):
-    model_config = ConfigDict(orm_mode=True)
+    model_config = ConfigDict(form_attributes=True)
 
 
 class ShowUser(BaseModel):
     name: str
     email: str
     blogs: List[Blog] = []
-    model_config = ConfigDict(orm_mode=True)
+    model_config = ConfigDict(form_attributes=True)
 
 
 class User(BaseModel):
@@ -28,7 +28,7 @@ class ShowBlog(BaseModel):
     title: str
     body: str
     creator: ShowUser
-    model_config = ConfigDict(orm_mode=True)
+    model_config = ConfigDict(form_attributes=True)
 
 
 
