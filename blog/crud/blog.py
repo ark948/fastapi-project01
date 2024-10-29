@@ -1,4 +1,4 @@
-import models, schemas
+from blog import models, schemas
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 

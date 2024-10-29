@@ -1,6 +1,6 @@
 from jose import jwt, JWTError
 from datetime import timedelta, timezone, datetime
-from schemas import TokenData
+from blog.schemas import TokenData
 
 
 
