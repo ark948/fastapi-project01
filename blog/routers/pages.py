@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 
 
 router = APIRouter(
-    prefix='/pages',
+    prefix='',
     tags=['Pages']
 )
 
@@ -14,7 +14,7 @@ router = APIRouter(
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get('/index', response_class=HTMLResponse)
+@router.get('/', response_class=HTMLResponse)
 def index(request: Request):
     return templates.TemplateResponse(
         request=request, name='index.html', context={'message': "WORLD"}
