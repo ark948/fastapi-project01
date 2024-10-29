@@ -7,3 +7,6 @@ for jwt stuff, use either,
     python-jose
     pyjwt
     jwt
+
+
+dockerize and make installable package
